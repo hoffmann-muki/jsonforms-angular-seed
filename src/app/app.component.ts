@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { angularMaterialRenderers } from '@jsonforms/angular-material';
+import { angularMaterialRenderers, NumberControlRenderer } from '@jsonforms/angular-material';
 import { and, createAjv, isControl, optionIs, rankWith, schemaTypeIs, scopeEndsWith, Tester } from '@jsonforms/core';
 import { CustomAutocompleteControlRenderer } from './custom.autocomplete';
 import { DataDisplayComponent } from './data.control';
@@ -9,6 +9,7 @@ import schemaAsset from '../assets/schema.json';
 import dataAsset from './data';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { DateAdapter } from '@angular/material/core';
+import { CustomTextRendererComponent, CustomTextRendererTester } from './custom-text-renderer.component';
 
 const departmentTester: Tester = and(
   schemaTypeIs('string'),
@@ -45,6 +46,24 @@ export class AppComponent {
       )
     },
   ];
+  
+  // Combine default material renderers with the custom renderer
+  // Register the custom renderer for option2 (radio buttons) alongside default layout renderers
+  customRenderers = [
+    ...angularMaterialRenderers,
+    {
+      tester: CustomTextRendererTester,
+      renderer: CustomTextRendererComponent,
+    },
+    {
+      tester: rankWith(1, (uischema, schema) => {
+        return isControl(uischema) && schema.type === 'number';
+      }),
+      renderer: NumberControlRenderer
+    },
+  ];
+  validators = []; // Add any custom validators if needed
+
   uischema = uischemaAsset;
   schema = schemaAsset;
   data = dataAsset;

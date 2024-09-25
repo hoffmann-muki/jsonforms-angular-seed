@@ -10,14 +10,16 @@ import { AppComponent } from './app.component';
 import { CustomAutocompleteControlRenderer } from './custom.autocomplete';
 import { DataDisplayComponent } from './data.control';
 import { LangComponent } from './lang.control';
-
+import { CustomTextRendererComponent } from './custom-text-renderer.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomAutocompleteControlRenderer,
     LangComponent,
-    DataDisplayComponent
+    DataDisplayComponent,
+    CustomTextRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { LangComponent } from './lang.control';
     JsonFormsAngularMaterialModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    NoopAnimationsModule // Required for some material components
   ],
   schemas: [],
   bootstrap: [AppComponent]
